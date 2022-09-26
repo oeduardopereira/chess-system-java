@@ -68,8 +68,15 @@ public class ChessMatch {
         Piece p = board.removePiece(source);
         Piece capturedPiece = board.removePiece(target);
         board.placePiece(p, target);
+
+        if ( capturedPiece != null){
+            piecesOnTheBoard.remove(capturedPiece);
+            capturedPieces.add(capturedPiece);
+        }
+
         return capturedPiece;
     }
+
     public void validateSourcePosition(Position position){
         if ( !board.thereIsAPiece(position)) {
             throw new chessException("There is no piece on source position");
@@ -89,7 +96,9 @@ public class ChessMatch {
 
     private  void placeNewPiece(char column, int row, ChessPiece piece){
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        piecesOnTheBoard.add(piece);
     }
+
     public void initialSetup(){
         placeNewPiece('c', 1, new Rook(board, Color.WHITE));
         placeNewPiece('c', 2, new Rook(board, Color.WHITE));
